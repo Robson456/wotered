@@ -1,12 +1,15 @@
-import {StyleSheet, View, Text} from 'react-native'
-import Card from '../components/card'
+import {StyleSheet, View, Text, Image} from 'react-native'
 
 
-export default function Details() {
+export default function Details(props) {
     return (
         <View style={styles.container}>
-            <Text>Details about plantas</Text>
-        <Card/>
+            <Text>{ props.route.params.id}</Text>
+            <Text>{ props.route.params.name}</Text>
+            <Text>{ props.route.params.description}</Text>
+            <Image
+            source={ props.route.params.source}
+            />
         </View>
     )
 }
