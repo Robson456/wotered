@@ -1,85 +1,109 @@
-import React from 'react'
-import {StyleSheet, View, ImageBackground, Text, Pressable, FlatList, TouchableOpacity, Image} from 'react-native';
+import React, {useState} from 'react'
+import {StyleSheet, View, ImageBackground, Text, FlatList,Modal, TouchableOpacity, Image, Button,} from 'react-native';
+import {MaterialIcons} from '@expo/vector-icons'
+import NewPlant from './NewPlant';
+import WeekDays from './weekDays';
 
 
-const bgImage = {uri: 'https://lh3.googleusercontent.com/Bnc1qB0B-CtSgVpmzQSRrDBp3hXVNZvzYYlwmEovlLAXeCNDWVwTV03mmVhqpVTPPBS6TdKBy5IMspu6mmgIYcN39emnls4lHgm-R7v5fX3S3v585xdznP70ZszWFuMhS90FwLgGx-7C_oAaWod6gWF7N3uphJfbCsOZ6kPPJvdITTv2PmRLoopgErkOSN8ia8vWP92-Ulhb0vmMDlf08Dmi6bsquU1US56Ashp1xe4tXdo4dBz2WQcs0PwylvXUXN_5Ng-FP9HkSMJli3Y4JR1WsN2nu1_hM-qwM6K95r_3_yTeJaTaarkd-ljmXtVRmSA4xrLPzmngZ9j7f4rKnS8J_UvnGoyXa1JMFE-pROI2vL-xz8eI7dg798Uo795zbyhoqi-RbNV6PJmLxMzVdX_xBIns0v7-KqsaH2GfcCWq1SajhaCo4_59aPcOahZW8hAnjctcXsT4SsovegEo_fdNTd6U9PNeP1D_GjKOF-oc71AmLZb-h6ZQvuUH2-q69X8CBxn1m8JmvxjYmG3MnFin7vTOdr-6VB80t06WbgxRFMECQ7dvrb3ZqmM_qNdbkp4KH0kuISg617OYXtNRwjmNO5ll9f0xVcnFTP2OlWM9Ta7zlrB61hpVVd6rbIPr3RCNiFwewu0hKFnUFky0FhmxTbVFEggbIAaRW0BozSCi1tbRhtH9p7XDHch0U--XA0iPbVxr5A3cZeR0Vypm3dZz=w611-h915-no?authuser=0'};
 
-
-const Images=[
-    { name: "plant1", description:"1lorem ipsum dolores es sum", id:"1", source: require('../images/plant.png')},
-    { name: "plant2",description:"2lorem ipsum dolores es sum", id:"2", source: require('../images/plant.png')},
-    { name: "plant3",description:"3lorem ipsum dolores es sum", id:"3", source: require('../images/plantv2.jpg')},
-   { name: "plant4",description:"4lorem ipsum dolores es sum", id:"4", source: require('../images/plant.png')},
-   { name: "plant5",description:"4lorem ipsum dolores es sum", id:"5", source: require('../images/plant.png')},
-   { name: "plant6",description:"4lorem ipsum dolores es sum", id:"6", source: require('../images/plant.png')},
-];
+const bgImage = {uri: "https://lh3.googleusercontent.com/j8nMll7-GNw5Ql-5J7Sp_9GdJXIGIp5DUqz2kKr7_tU9QjdApleiMHetuk4giqTYoXN9N-HcJ0f7a4tldFa-knKFxzzlmnxqJWCiMOEZRUp9xCZTjKMQuCwHKpVMqbnGsuwlBqfBDOCGItvSzPeuygU_AcS00Gb4tQOsWu27IhnmkS9vHVr3l_dacDJV-ycOu5shXmSWUP_1naNQd-0teaYWIY1d1Gd4yR-I9_e33ETzZ3EPuhm39Tc50ZvwLYp8H__p4Rcry0TX-iYu_Xch6Yp9oJGhNCGhNaBYrIUerdXNcWSQrpUP9aaQfgFIK4jYBJQM_1T_Ob4ZLRWoh1nOJ8XxrF4_QWoAOjZoUkfAxLOQcQgHWY4yqFdAieICBumWweE37mYal9gsdmGDaUNdTab1KZyO294JfvvJGJvwJZIO8d7gPigKsRSX-Aynv3NJIt5ti_7DGOTAuySFWqFa2OJ7v-VP04SuwIyG49wtzqRsYxiXf7Q52lr3e_OmyCiPPCfSgp4-FQDW7PH44TEWHOLHZSuS_A85UYUiPVU-h5I9nXp2U0hsmMrSaR4paPwgnR5iAaI1DIGaRPR7b7ALx2E2YPZ0FXPiWFTMxLC195q26Tq16AMrjemKNixnz1M42K2m75LKZyKko6FY4nbH7OlZgHS9oRXH-ogg1RbaltPzFpAzmGl0FolDNfqIiTiSbT9U2q4DdEUeyNa3yEXjVqwY=w611-h915-no?authuser=0"};
 
 export default function home( {navigation} ) {
+    const [modalOpen, setModalOpen] = useState(false);
+    const [plant, setPlant] = useState([
+        { name: "Adam", description:"1lorem ipsum dolores es sum1lorem ipsum dolores es sum1lorem ipsum dolores es sum1lorem ipsum dolores es sum1lorem ipsum dolores es sum1lorem ipsum dolores es sum1lorem ipsum dolores es sum1lorem ipsum dolores es sum1lorem ipsum dolores es sum1lorem ipsum dolores es sum1lorem ipsum dolores es sum",  source: require('../images/plant.png'), key:'1'},
+        { name: "Wlodek",description:"2lorem ipsum dolores es sum", source: require('../images/plant.png'), key:'2'},
+        { name: "Krystek",description:"3lorem ipsum dolores es sum", source: require('../images/plantv2.jpg'), key:'3'},
+       { name: "Zdzisiu",description:"4lorem ipsum dolores es sum",  source: require('../images/plant.png'), key:'4'},
+    
+    ]);
+    const addPlant = (plant) => {
+        plant.key = Math.random().toString();
+        setPlant((currentPlants)=>{
+            return [plant, ...currentPlants];
+        });
+        setModalOpen(false);
+    }
+   
     return (
+        <View style={styles.containerBg}>
         <ImageBackground source={bgImage} resizeMode='cover' style={styles.image}>
             <View style={styles.container}>
                 <Text style={styles.headline}>My Plants </Text>
             </View>
+            <Modal visible={modalOpen} annimationType='slide'>
+                <View style={styles.modalContent}>
+                    <MaterialIcons
+                    name='close'
+                    size={48}
+                    onPress={()=> setModalOpen(false)}
+                    style={styles.modalToggle}
+                />
+                    <NewPlant addPlant={addPlant} />
+                </View>
+            </Modal>
             <FlatList 
             horizontal
-            keyExtractor={(item) => item.id}
-            data={Images}
+            data={plant}
             renderItem={ ({item}) => (
                 <View style={styles.container}>
+                    
                     <TouchableOpacity onPress={()=> navigation.navigate('Details',item )}  >
-                        
                         <Image style={styles.images}
-                            source={item.source}
-                            
+                            source={require('../images/plant.png')}
                             />
                     </TouchableOpacity>
-                    <Text style={styles.Text}>{item.name}</Text>
-                    
-                    <Text >{item.description}</Text>
+                    <Text style={styles.text}>{item.name}</Text>
                 </View>         
-                )
-                
-            }
+                )}
             />
-            <Pressable
-                style={styles.Button}
-                onPress={() => navigation.navigate('Add')}
-                >
-                <Text>Add</Text>
-            </Pressable>
+            <WeekDays/>
+            <MaterialIcons
+                name='add'
+                size={48}
+                onPress={()=> setModalOpen(true)}
+                style={styles.modalToggle}
+                
+            />
         </ImageBackground>
-        
+        </View>
     )
 
 }
 const styles = StyleSheet.create({
     image:{
         flex: 1,
+        justifyContent: "center"
     },
-    Button:{
+    text:{
+        fontSize: 24,
+        color: 'black',
+    },
+    modalToggle:{
         alignSelf: 'flex-end',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#82FFB4',
-        borderRadius: 50,
-        width: 60,
-        height: 60,
-        margin: 15,
-
-
+        padding: 10,
+    },
+    modalClose:{
+        alignSelf: 'center',
+        padding: '10',
     },
     images:{
         height: 300,
         width: 200,
         margin: 10,
     },
-
+    modalContent:{
+        flex: 1,
+    },
         
     container: {
         alignItems: 'center',
         fontSize: 60,
         padding: 10,
          
+    },
+    containerBg:{
+        flex:1
     },
 
     headline:{
