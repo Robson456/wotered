@@ -57,7 +57,7 @@ export default function home( {navigation} ) {
                 </View>         
                 )}
             />
-            <WeekDays/>
+            {/* <WeekDays/> */}
             <MaterialIcons
                 name='add'
                 size={48}
